@@ -6,42 +6,65 @@ router folder
 ====================================================== */
 
 const orm = require('../models/orm');
+const {Op} = require('sequelize')
 
 function router( app ){
-    app.get('/api/tasks/:due?', async function(req, res) {
-        const due = req.params.due ? { due: req.params.due } : ''
-        console.log( `[GET] getting list, due=${due}`)
-        const list = await orm.getList( due )
-
-        res.send( list )
+    // to get all the bids
+    app.get('/api/bids', async function(req, res) {
+        let result = await orm.findAll()
+        res.json(result)
     })
 
-    app.post('/api/tasks', async function(req, res) {
-        console.log( '[POST] we received this data:', req.body )
-        const saveResult = await orm.insertTask( req.body.priority, req.body.info, req.body.due )
-        console.log( `... insertId: ${saveResult.insertId} ` )
+    // to get bids for a specific category
+    app.get('/api/posts/category/:category', async function(req, res){
+        let result = await orm.findAll({
+            where: {
+                category: req.params.category
+            }
+        })
+        res.json(result)
+    })
 
-        res.send( { status: true, insertId: saveResult.insertId, message: 'Saved successfully' } )
+    // to get bids with title containing search query
+    app.get('/api/posts/:title', async function(req, res){
+        let result = await orm.findAll({
+            where:{
+                [Op.like]: `%${req.params.name}%`
+            }
+        })
+        res.json(result)
+    })
+
+    // to submit a post
+    app.post('/api/posts', async function(req, res) {
+        let result = await orm.create({
+            name: req.body.name,
+            price: req.body.price,
+            stock: req.body.stock,
+            category: req.body.category
+        })
+        res.json(result)
     });
 
-    app.put('/api/tasks', async function(req, res) {
-        console.log( '[PUT] we received this data:', req.body )
-        if( !req.body.id ) {
-            res.status(404).send( { message: 'Invalid id' } )
-        }
-
-        const saveResult = await orm.updateTask( req.body.id, req.body.priority, req.body.info, req.body.due )
-        console.log( '... ', saveResult )
-        res.send( { status: true, message: 'Updated successfully' } )
+    // to update the current bidder
+    app.put('/api/posts/id', async function(req, res) {
+        let result = await orm.update(req.body.price,
+            {
+                where: {
+                    id: req.body.id
+                }
+            })
+        res.json(result)
     });
 
-    app.delete('/api/tasks/:id', async function(req, res) {
-        const taskId = req.params.id
-        console.log( `[DELETE] id=${taskId}` )
-        const deleteResult = await orm.deleteTask( taskId )
-        console.log( '... ', deleteResult )
-
-        res.send( { status: true, message: 'Deleted successfully' } )
+    //to delete bid
+    app.delete('/api/posts/id', async function(req, res) {
+        let result = await orm.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.json(result)
     });
 }
 
