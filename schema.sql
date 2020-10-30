@@ -5,6 +5,7 @@ CREATE DATABASE ecommerce_db;
 CREATE TABLE product (
     id int NOT NULL AUTO_INCREMENT,
     product_name VARCHAR(30) NOT NULL,
+    decription VARCHER(60) NOT NULL,
     price FLOAT NOT NULL,
     stock INT NOT NULL,
     category VARCHAR(30) NOT NULL,

@@ -52,8 +52,10 @@ function router( app ){
 
     // to submit a post
     app.post('/api/posts', async function(req, res) {
+        console.log('Routing post...')
         let result = await db.Post.create({
             name: req.body.name,
+            desc: req.body.desc,
             price: req.body.price,
             stock: req.body.stock,
             category: req.body.category
@@ -74,7 +76,7 @@ function router( app ){
 
     //to delete bid
     app.delete('/api/posts/id', async function(req, res) {
-        let result = await db.Post.destroy({
+        let result = await db.product.destroy({
             where: {
                 id: req.params.id
             }
