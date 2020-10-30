@@ -17,7 +17,7 @@ app.use( express.static('public') )
 // for routes
 apiRouter(app)
 
-db.sequelize.sync({force: true}).then(function(){
+db.sequelize.sync().then(function(){
     app.listen(PORT, function() {
         console.log( `Database (name=${process.env.DB_NAME}); Serving app on: http://localhost:${PORT}` )
     })
