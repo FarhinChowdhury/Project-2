@@ -3,7 +3,13 @@ require( 'dotenv' ).config() // looks for .env ; process.env gets it's values
 const express = require('express')
 const apiRouter = require('./app/router/router')
 const app = express()
-var db = require('./app/models')
+const db = require('./app/models')
+const fs = require('fs')
+const https = require('https')
+const privateKey = fs.readFileSync('server.key', 'utf-8')
+const certificate = fs.readFileSync('server.crt', 'utf-8')
+var credentials = {key: privateKey, cert: certificate}
+
 
 const PORT = process.env.PORT || 8080
 
@@ -17,9 +23,11 @@ app.use( express.static('public') )
 // for routes
 apiRouter(app)
 
+const httpsServer = https.createServer(credentials, app)
+
 db.sequelize.sync().then(function(){
-    app.listen(PORT, function() {
-        console.log( `Database (name=${process.env.DB_NAME}); Serving app on: http://localhost:${PORT}` )
+    httpsServer.listen(PORT, function() {
+        console.log( `Database (name=${process.env.DB_NAME}); Serving app on: https://localhost:${PORT}` )
     })
 })
 
