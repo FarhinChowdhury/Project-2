@@ -2,4 +2,7 @@ node_modules/
 package-lock.json
 .DS_Store
 .env
-rootCA *
+rootCA*
+v3.ext
+server*
+!server.js
