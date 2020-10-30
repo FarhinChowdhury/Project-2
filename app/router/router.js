@@ -42,12 +42,19 @@ function router( app ){
 
     // to get bids with title containing search query
     app.get('/api/posts/:title', async function(req, res){
-        let result = await db.Post.findAll({
-            where:{
-                [Op.like]: `%${req.params.name}%`
-            }
-        })
-        res.json(result)
+        try {
+            console.log('PARAMS: ',req.params)
+            let result = await db.Post.findAll({
+                where:{
+                    name:{[Op.like]: `%${req.params.title}`}
+                }
+            })
+            console.log('Search Result: ',result)
+            res.json(result);
+        } catch (error) {
+            console.log(error)
+            res.send(error)
+        }
     })
 
     // to submit a post
