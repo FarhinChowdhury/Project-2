@@ -1,24 +1,73 @@
-#logo {
-    width: 100px;
+html{
+    font-family:Arial, Helvetica, sans-serif
+}
+.navbar{
+    background-color:#050505;
+    color:#ffff;
+}
+.navbar-brand{
+    color:white;
+    font-family: 'Grenze Gotisch', cursive;
+    font-size: 2rem;
+
+}
+.footer{
+    background-color:#050505;
+    color:#ffff;
+    padding:1rem;
+    align-content: center;
+    position:fixed;
+    left:0;
+    bottom:0;
+    width:100%;
+    text-align: center;
 }
 
-.list-group-item {
-    position: relative;
-    display: block;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: -1px;
-    margin-right: -10px;
-    padding-right: 0px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125)
+/*===========Cart page===========*/
+.product-container{
+    margin-top:50px;
+    margin-left:5px;
+    margin-right:5px;
+}
+.product-header{
+    width:100%;
+    max-width: 650px;
+    display:flex;
+    justify-content: flex-start;
+    border-bottom:4px solid grey;
+    margin:0 auto;
 }
 
-.todo-indicator {
-    position: absolute;
-    width: 6px;
-    height: 60%;
-    border-radius: 0.3rem;
-    left: 0.625rem;
-    top: 20%;
-    opacity: .6;
+.product-name{
+    width:40%;
+}
+
+.product-price{
+    width:15%;
+    margin-right:10px;
+    display:flex;
+    align-items: center;
+}
+.product-total{
+    width:10%;
+
+    display:flex;
+    align-items: center;
+
+}
+.product-quantity{
+    width:30%;
+
+    display:flex;
+    align-items: center;
+
+}
+
+.products{
+    width: 45%;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+
 }
