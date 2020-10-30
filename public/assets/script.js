@@ -1,127 +1,120 @@
-/* unlike node where we can pull in packages with npm, or react, for normal
-    webpages, we can use a cool resource called unpkg from the html page, so
-    in this example we use the moment npm package on both the server & client side */
+let cart = document.querySelectorAll(".add-cart")
 
-/*
-    note how we wrap our api fetch in this function that allows us to do some
-    additional error / message handling for all API calls...
-*/
-async function fetchJSON( url, method='get', data={} ){
-    let settings = {
-        method,
-        headers: { 'Content-Type': 'application/json' }
+let products = [
+    {   name:"Shrek Pillow",
+        tag:"shrekpillow",
+        price:18,
+        inCart:0
+    },
+    {
+        name:"Shrek Pillow Small",
+        tag:"shrekpillow-sm",
+        price:9.99,
+        inCart:0
+    },
+    {
+        name:"Shrek Duvet Cover",
+        tag:"shrekduvet",
+        price:111.99,
+        inCart:0
+    },
+    {
+        name:"Shrek Cup",
+        tag:"shrekcup",
+        price:12,
+        inCart:0
     }
-    // only attach the body for put/post
-    if( method === 'post' || method === 'put' ) {
-        settings.body = JSON.stringify( data )
-    }
+    
+]
 
-    const result = await fetch( url,settings ).then( res=>res.json() )
 
-    /* put the api result message onto the screen as a message if it exists */
-    if( result.status && result.message ){
-        const apiResultEl = document.querySelector('#apiMessage')
-        apiResultEl.innerHTML = result.message
-        apiResultEl.classList.remove( 'd-none' )
-        console.log( 'showing message: '+ result.message )
-        setTimeout( function(){
-            apiResultEl.classList.add( 'd-none' )
-        }, 5000 )
-    } else if( !result.status && result.message ){
-        alert( 'Problems: ' + result.message )
-    }
 
-    return result
-}
-
-async function taskList( due='' ){
-    const taskList = await fetchJSON( '/api/tasks' + (due ? `/${due}` : '') )
-    console.log( `[taskList] due='${due}'`, taskList )
-
-    const listEl = document.querySelector('#list')
-    listEl.innerHTML = ''
-
-    taskList.forEach( function( task ){
-        listEl.innerHTML += `
-        <li class="list-group-item">
-            <div class="float-right p-0">
-                <button onClick="taskDelete(${task.id})" class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button>
-            </div>
-            <div class="todo-indicator bg-${task.priority}"></div>
-            <h3 class="text-primary">${task.info}</h3>
-            <small class="text-muted">${task.due ? 'Due: '+moment(task.due).format('MMM Do, YYYY') : '' }</small>
-        </li>
-        `
+for (i=0;i<cart.length;i++){
+    cart[i].addEventListener('click',()=>{
+        cartNumbers(products[i])
+        totalCost(products[i])
     })
 }
+//add to cart
+function cartNumbers(product){
+    console.log(product)
+    let productNumbers= localStorage.getItem('cartNumbers');
+    productNumbers=parseInt(productNumbers)
 
-/* functions triggered by the html page */
-
-// run once page has loaded
-async function mainApp(){
-    console.log( '[mainApp] starting...' )
-
-    // show the task list ...
-    taskList()
+    if(productNumbers){
+        localStorage.setItem('cartNumbers',productNumbers + 1) 
+        document.querySelector("#cartCounter").textContent = productNumbers + 1; 
+    }else{
+    localStorage.setItem('cartNumbers', 1)
+    document.querySelector("#cartCounter").textContent = 1;
+    } 
+    setItems(product)
 }
 
-function showTodaysTasks(){
-    document.querySelector('#todayTasksBtn').classList.add('d-none')
-    document.querySelector('#allTasksBtn').classList.remove('d-none')
+function setItems(product){
+    let cartItems = localStorage.getItem("productsPicked")
+    cartItems = JSON.parse(cartItems);
+    
 
-    const today = moment().format('YYYY-MM-DD')
-    taskList( today )
+    if(cartItems!=null){
+        if(cartItems[product.tag] == undefined){
+            cartItems = {
+                ...cartItems,
+                [product.tag]:product
+            }
+        }
+        cartItems[product.tag].inCart +=1;
+    }else{
+        product.inCart = 1;
+        cartItems = {[product.tag]: product}
+    }
+    
+   
+    localStorage.setItem("productsPicked", JSON.stringify(cartItem))
 }
 
-function showAllTasks(){
-    document.querySelector('#todayTasksBtn').classList.remove('d-none')
-    document.querySelector('#allTasksBtn').classList.add('d-none')
+//remembers previous selections into cart
 
-    taskList()
-}
-
-// toggled by the [Add Task] button
-function toggleTaskForm( forceHide=false ){
-    const formEl = document.querySelector('#taskForm')
-    if( !forceHide || formEl.classList.contains('d-none') ){
-        formEl.classList.remove( 'd-none' )
-    } else {
-        formEl.classList.add( 'd-none' )
+function remeberCartItems(){
+    let productNumbers= localStorage.getItem('cartNumbers');
+    if(productNumbers){
+        document.querySelector("#cartCounter").textContent = productNumbers
     }
 }
 
-// triggered by the [x] delete button
-async function taskDelete( id ){
-    const deleteResponse = await fetchJSON( `/api/tasks/${id}`, 'delete' )
-    console.log( '[taskDelete] ', deleteResponse )
+function totalCost(product){
+    let cartCost = localStorage.getItem('totalCost');
+    
 
-    taskList()
-}
+    if(carCost != null){
+        cartCost = parseFloat(cartCost)
+        localStorage.setItem('totalCost', cartCost+ product.price)
 
-// save the new form
-async function saveForm( event ){
-    event.preventDefault()
-
-    const formData = {
-        priority: document.querySelector('#taskPriority').value,
-        info: document.querySelector('#taskInfo').value,
-        due: document.querySelector('#taskDue').value
-    }
-
-    // clear form
-    document.querySelector('#taskPriority').value = ''
-    document.querySelector('#taskInfo').value = ''
-    document.querySelector('#taskDue').value = ''
-    console.log( '[saveForm] formData=', formData )
-
-    const saveResponse = await fetchJSON( '/api/tasks', 'post', formData )
-    console.log( '[saveResponse] ', saveResponse )
-
-    if( saveResponse.status ){
-        // hide the form
-        toggleTaskForm( true )
-
-        // refresh the list
-        taskList()
+    }else{
+    localStorage.setItem("totalCost", product.price)
     }
 }
+
+function displayItems(){
+    let cartItems = localStorage.getItem("productPicked")
+    cartItems= JSON.parse(cartItems)
+    let productContainer = document.querySelector(".product")
+
+    if(cartItems && productContainer){
+        console.log("running")
+        productContainer.innerHTML ='';
+        Object.values(cartItems).map(item=>{
+            productContainer.innerHTML +=`
+            <div class="product">
+                <i class="far fa-times-circle"></i>
+                <span>${item.name}</span>
+            </div>
+            <div class="price">$${item.price}</div>
+            <input class="qantity>${item.inCart}>
+            `
+        })
+
+    }
+}
+remeberCartItems()
+displayItems()
