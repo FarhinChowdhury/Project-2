@@ -96,7 +96,37 @@
         </form>
 
     </div>
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="productTitle">Product Preview</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body justify-content-center" id="modalDesc">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" id="productImage" src="..." alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title" id="productName">Card title</h5>
+                      <p class="card-text" id="productDesc">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text" id="productStock">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text" id="productCat">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <p class="card-text" id="productBid">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Make a Bid</a>
+                      <a href="#" class="btn btn-primary">Buy Now</a>
 
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="saveBtn" data-dismiss="modal">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
