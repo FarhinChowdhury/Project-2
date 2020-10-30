@@ -28,3 +28,11 @@ CREATE TABLE bid (
     max_bid_user_id INT NULL,
     PRIMARY KEY(id)
 );
+
+CREATE TABLE cart (
+    id int not null AUTO_INCREMENT,
+    product_name VARCHAR(30) NOT NULL,
+    product_price float not null,
+    product_amount int not null,
+    PRIMARY KEY(id)
+);
