@@ -6,23 +6,44 @@ router folder
 ====================================================== */
 
 const db = require('../models');
-var path = require('path')
+const path = require('path')
 const { Op } = require('sequelize')
+const passport = require('../config/passport')
 
 function router( app ){
 
     //HTML routes
     app.get('/', function(req, res){
-        res.sendFile(path.join(__dirname, '../public/index.html'))
+        res.sendFile(path.join(__dirname, '../../public/index.html'))
+    })
+
+    app.get('/login', function(req, res){
+        res.sendFile(path.join(__dirname, '../../public/login.html'))
+    })
+
+    app.get('/signup', function(req, res){
+        res.sendFile(path.join(__dirname, '../../public/signup.html'))
     })
 
     app.get('/bids', async function(req, res){
-        res.sendFile(path.join(__dirname, '../public/index.html'))
+        res.sendFile(path.join(__dirname, '../../public/products.html'))
     })
 
     app.get('/posts', async function(req, res){
-        res.sendFile(path.join(__dirname, '../public/products.html'))
+        res.sendFile(path.join(__dirname, '../../public/forms.html'))
     })
+
+    // google authenticator
+    app.get('/auth/google',
+        passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login']})
+    )
+
+    // google authenticator callback
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {failureRedirect: '/login'}),
+        function(req, res){
+            res.redirect('/')
+        })
 
     // to get all the bids
     app.get('/api/bids', async function(req, res) {
@@ -57,6 +78,10 @@ function router( app ){
         }
     })
 
+    app.post('/api/login', passport.authenticate('local'), function(req, res){
+        res.json(req.user)
+    })
+
     // to submit a post
     app.post('/api/posts', async function(req, res) {
         console.log('Routing post...')
@@ -69,6 +94,20 @@ function router( app ){
         })
         res.json(result)
     });
+
+    app.post('/api/signup', async function(req, res){
+        console.log('Signing in ... ')
+        console.log(req.body, req.params)
+        let result = await db.User.create({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            password: req.body.password
+        }).catch(function (err){
+            res.status(401).json(err)
+        })
+        res.json(result)
+    })
 
     // to update the current bidder
     app.put('/api/posts/id', async function(req, res) {

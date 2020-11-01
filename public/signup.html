@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #2</title>
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&display=swap" rel="stylesheet">
 
@@ -14,14 +16,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="./assets/style.css">
+    <script src="assets/signup.js"></script>
 
     <!-- any NPM packages you want to include, you can directly include like this -->
     <script src="https://unpkg.com/moment"></script>
-    <title>Forms</title>
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
-    
-<!-- we will start the app when this page is loaded by running it with onLoad... -->
 <body>
     <nav id = "nav"class="navbar">
         <a href="/" class="navbar-brand mb-0 h1">Fandomzzz</a>
@@ -55,19 +55,43 @@
                   class="btn btn-outline-info btn-md btn-rounded btn-navbar waves-effect waves-light">Sign up</a>
               </li>
           </ul>
-
     </nav>
-    <div class="container mt-3">
-        <div class="row" id="cardContainer">
-
+    <div class="container-fluid" id="signbox">
+        <div class="signup">
+            <h2 id="signh2">Sign Up</h2>
+            <form class="signupform">
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleInputFirstName">First Name</label>
+                        <input type="text" class="form-control" id="first-input">
+                    </div>
+                    <div class="col">
+                        <label for="exampleInputLastName">Last Name</label>
+                        <input type="text" class="form-control" id="last-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="password-input">
+                </div>
+                <div style="display: none" id="alert" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span> <span class="msg"></span>
+                </div>
+        
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <div class="g-signin2" data-height="50" data-width="200" data-onsuccess="onSignIn"></div>
+            <p style="align-self: flex-end;"><b>or login <a href="/login">here</a></b></p>
         </div>
     </div>
     <div class="footer">
-      All Rights Reserved.
+        All Rights Reserved.
     </div>
-
 </body>
-<script src = "./assets/products.js"></script>
-<script src = "./assets/index.js"></script>
-<script src = "./assets/script.js"></script>
+
 </html>
