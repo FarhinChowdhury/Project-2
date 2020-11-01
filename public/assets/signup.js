@@ -8,19 +8,21 @@ $(document).ready(function() {
 
     // When the signup button is clicked, we validate the email and password are not blank
     signUpForm.on('submit', function(event) {
+        console.log('Adding User ...')
         event.preventDefault();
         var userData = {
-            firstName: firstInput.val().trim(),
-            lastName: lastInput.val().trim(),
+            first_name: firstInput.val().trim(),
+            last_name: lastInput.val().trim(),
             email: emailInput.val().trim(),
             password: passwordInput.val().trim()
         };
 
-        if (!userData.firstName || !userData.lastName || !userData.email || !userData.password) {
+        if (!userData.first_name || !userData.last_name || !userData.email || !userData.password) {
+            console.log('oopsie not all fields are completed', userData)
             return;
         }
         // If we have an email and password, run the signUpUser function
-        signUpUser(userData.firstName, userData.lastName, userData.email, userData.password);
+        signUpUser(userData.first_name, userData.last_name, userData.email, userData.password);
         firstInput.val('');
         lastInput.val('');
         emailInput.val('');
@@ -29,22 +31,25 @@ $(document).ready(function() {
 
     // Does a post to the signup route. If successful, we are redirected to the members page
     // Otherwise we log any errors
-    function signUpUser(firstName, lastName, email, password) {
+    function signUpUser(first_name, last_name, email, password) {
+        console.log('reached [signUpUser] function ...')
         $.post('/api/signup', {
-            first_name: firstName,
-            last_name: lastName,
+            first_name: first_name,
+            last_name: last_name,
             email: email,
             password: password
         })
             .then(function(data) {
                 window.location.replace('/posts');
+                console.log('Switching to login page')
                 // If there's an error, handle it by throwing up a bootstrap alert
             })
             .catch(handleLoginErr);
     }
 
     function handleLoginErr(err) {
-        $('#alert .msg').text(err.responseJSON);
+        console.log('Error', err.name)
+        $('#alert .msg').text(JSON.stringify(err.responseJSON));
         $('#alert').fadeIn(500);
     }
 });

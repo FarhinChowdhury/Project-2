@@ -35,12 +35,12 @@ function router( app ){
 
     // google authenticator
     app.get('/auth/google',
-        passport.autheticate('google', {scope: ['https://www.googleapis.com/auth/plus.login']})
+        passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login']})
     )
 
     // google authenticator callback
     app.get('/auth/google/callback',
-        passport.autheticate('google', {failureRedirect: '/login'}),
+        passport.authenticate('google', {failureRedirect: '/login'}),
         function(req, res){
             res.redirect('/')
         })
@@ -78,6 +78,10 @@ function router( app ){
         }
     })
 
+    app.post('/api/login', passport.authenticate('local'), function(req, res){
+        res.json(req.user)
+    })
+
     // to submit a post
     app.post('/api/posts', async function(req, res) {
         console.log('Routing post...')
@@ -92,9 +96,11 @@ function router( app ){
     });
 
     app.post('/api/signup', async function(req, res){
+        console.log('Signing in ... ')
+        console.log(req.body, req.params)
         let result = await db.User.create({
             first_name: req.body.first_name,
-            last_name: req.bosy.last_name,
+            last_name: req.body.last_name,
             email: req.body.email,
             password: req.body.password
         }).catch(function (err){
