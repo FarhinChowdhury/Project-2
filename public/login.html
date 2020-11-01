@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #2</title>
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&display=swap" rel="stylesheet">
 
@@ -17,11 +19,8 @@
 
     <!-- any NPM packages you want to include, you can directly include like this -->
     <script src="https://unpkg.com/moment"></script>
-    <title>Forms</title>
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
-    
-<!-- we will start the app when this page is loaded by running it with onLoad... -->
 <body>
     <nav id = "nav"class="navbar">
         <a href="/" class="navbar-brand mb-0 h1">Fandomzzz</a>
@@ -37,7 +36,7 @@
             <a class="nav-link" href="/bids">All Products</a>
           </li>
             <li class="nav-item">
-              <a class="nav-link" href="/posts">Add Product</a>
+              <a class="nav-link" href="/bids">Add Product</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
@@ -55,19 +54,33 @@
                   class="btn btn-outline-info btn-md btn-rounded btn-navbar waves-effect waves-light">Sign up</a>
               </li>
           </ul>
-
     </nav>
-    <div class="container mt-3">
-        <div class="row" id="cardContainer">
-
+    <div class="container-fluid" id="loginbox">
+        <div class="login">
+            <h2 id="loginh2">Login</h2>
+            <form class="loginform">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="password-input">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <p style="align-self: flex-end;">or sign up <a href="/signup">here</a></p>
         </div>
     </div>
     <div class="footer">
-      All Rights Reserved.
+        All Rights Reserved.
     </div>
-
 </body>
-<script src = "./assets/products.js"></script>
-<script src = "./assets/index.js"></script>
-<script src = "./assets/script.js"></script>
+
 </html>
