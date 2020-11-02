@@ -29,7 +29,6 @@ $(document).ready(function() {
                         <p class="card-text m-0" id="productBid">Starting Bid: ${el.price.toFixed(2)}</p>
                         <a href="#" class="btn btn-primary m-0 mt-2">Make a Bid</a>
                         <a href="#" class="btn btn-primary mt-2">Buy Now</a>
-    
                     </div>
                 </div>
                 `
