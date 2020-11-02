@@ -8,6 +8,12 @@ router folder
 const db = require('../models');
 const path = require('path')
 const { Op } = require('sequelize')
+const express = require('express')
+const app = express()
+const uploadResizer = require( '../config/uploadResizer' )
+const upload = require('multer')({ dest: 'public/uploads' })
+const publicPath = '../../'
+
 const passport = require('../config/passport')
 
 function router( app ){
@@ -84,13 +90,14 @@ function router( app ){
 
     // to submit a post
     app.post('/api/posts', async function(req, res) {
-        console.log('Routing post...')
+        console.log('Routing post...', req.body)
         let result = await db.Post.create({
             name: req.body.name,
             desc: req.body.desc,
             price: req.body.price,
             stock: req.body.stock,
-            category: req.body.category
+            category: req.body.category,
+            image: req.body.image
         })
         res.json(result)
     });
@@ -129,6 +136,25 @@ function router( app ){
         })
         res.json(result)
     });
+
+    app.post('/api/upload', upload.single('imageFile'), async function (req,res, next){
+        console.log('file upload', req.file)
+        let mediaData = req.body
+        // if they uploaded a file, let's add it to the thumbData
+        if( req.file ){
+            console.log('path is: ', __dirname)
+            const imageUrl = await uploadResizer(publicPath+req.file.path, req.file.originalname, 512, 512);
+            console.log('IMAGE URL',imageUrl)
+            // assign in the thumbData so can use as normal
+            mediaData.imageUrl = imageUrl
+            console.log('mediaData', mediaData.imageUrl)
+
+            mediaData.name = req.file.originalname
+        }
+        res.send({imageUrl: mediaData.imageUrl, status: true})
+    })
+
+
 }
 
 module.exports = router
