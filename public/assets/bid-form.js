@@ -1,3 +1,111 @@
+let imageData;
+var productInput = $('#product');
+var descriptionInput = $('#desc');
+var categoryInput = $('#category');
+var startingBidInput = $('#startingBid');
+var stockInput = $('#stock');
+var imageInput = $('#imageFile');
+var productForm = $('.submit');
+var postCategorySelect = $('#category');
+
+
+async function apiCall( url, method='get', data={} ){
+    method = method.toLowerCase()
+    let settings = { method }
+
+    // for formData we must NOT set content-type, let system do it
+    const isFormData = (typeof data)==='string'
+    if( !isFormData ) {
+        settings.headers = { 'Content-Type': 'application/json' }
+    }
+
+    // only attach the body for put/post
+    if( method === 'post' || method === 'put' ) {
+        if( isFormData ){
+            //* gather form data (esp. if attached media)
+            //! each entry to be attached must have a valid **name** attribute
+            settings.body = new FormData( document.querySelector(`${data}`) )
+        } else {
+            settings.body = JSON.stringify( data )
+        }
+    }
+
+    const result = await fetch( url,settings ).then( res=>res.json() )
+
+    return result
+}
+
+async function uploadMedia( event ){
+    event.preventDefault()
+
+    //* because we are using the built-in browser form-builder, we need valid
+    //! **name** attributes - for ease we give same values as the id's
+    const uploadResponse = await apiCall( '/api/upload', 'post', '#mediaForm' )
+    console.log( '[uploadResponse] ', uploadResponse )
+
+    if( uploadResponse.status ){
+        // clear the data
+        // document.querySelector('#imageUrl').value = ''
+        $('#productImage').attr('src',uploadResponse.imageUrl)
+        imageData = uploadResponse.imageUrl
+        console.log('ImageData: ', imageData)
+        confirmNewProduct()
+        // refresh the list
+    }
+}
+
+function submitProduct(Post) {
+    console.log('submitting: ', Post);
+    $.post('/api/posts', Post, function () {
+        console.log('Adding product to database...');
+        // window.location.href = '/product';
+    });
+
+}
+
+function confirmNewProduct() {
+
+    if (
+        !productInput.val().trim() ||
+            !descriptionInput.val().trim() ||
+            !categoryInput.val() ||
+            !startingBidInput.val() ||
+            !imageInput.val() ||
+            !stockInput.val()
+    ) {
+        console.log('Unable to submit');
+        return;
+    }
+    console.log('IMAGE INPUT', imageInput)
+    // Constructing a newPost object to hand to the database
+    var newProduct = {
+        name: productInput.val().trim(),
+        desc: descriptionInput.val().trim(),
+        price: startingBidInput.val().trim(),
+        stock: stockInput.val().trim(),
+        category: postCategorySelect.val().trim(),
+        image: imageData
+    };
+
+    console.log(newProduct);
+
+    $('#productName').text(newProduct.name)
+    $('#productDesc').text(newProduct.desc)
+    $('#productStock').text(`Stock: ${newProduct.stock}`)
+    $('#productCat').text(newProduct.category)
+    $('#productBid').text(`Starting Bid: ${newProduct.price}`)
+    // $('#productImage').attr('src',data.image)
+    $('#myModal').modal({show:true})
+    $('#saveBtn').on('click', submitProduct(newProduct))
+
+}
+
+
+
+// Adding an event listener for when the form is submitted
+// Submits a new post and brings user to blog page upon completion
+
+
 function validateFile() {
 
     const fileName = $('#uploadImage').val();
