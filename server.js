@@ -20,6 +20,8 @@ app.use(express.json())
 // for serving all the normal html
 app.use( express.static('public') )
 
+
+
 // for routes
 apiRouter(app)
 

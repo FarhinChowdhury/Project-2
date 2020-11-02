@@ -11,6 +11,8 @@ const { Op } = require('sequelize')
 const passport = require('../config/passport')
 
 function router( app ){
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     //HTML routes
     app.get('/', function(req, res){
