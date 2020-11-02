@@ -58,6 +58,6 @@ function remeberCartItems(){
 function displayCartItems(){
 
 }
-
+console.log('remembering carts')
 remeberCartItems()
 
