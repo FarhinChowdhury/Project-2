@@ -16,7 +16,7 @@ $(document).ready(function() {
                     <p class="card-text m-0" id="productDesc">${el.desc}</p>
                     <p class="card-text m-0" id="productStock">Stock: ${el.stock}</p>
                     <p class="card-text m-0" id="productCat">${el.category}</p>
-                    <p class="card-text m-0" id="productBid">Starting Bid: ${el.price}</p>
+                    <p class="card-text m-0" id="productBid">Starting Bid: ${el.price.toFixed(2)}</p>
                     <a href="#" class="btn btn-primary m-0 mt-2">Make a Bid</a>
                     <a href="#" class="btn btn-primary mt-2">Buy Now</a>
 
