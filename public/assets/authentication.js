@@ -35,7 +35,7 @@ function renderNav() {
                     <div class="dropdown-menu">
                         <a class="dropdown-item" id ="profile" href="profile.html">Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" id="logoutbtn" href="/" >Log Out</a>
+                        <a class="dropdown-item" href='/'><span id="logoutbtn">Log Out</span></a>
                     </div>
                 </li>
             </ul>`
@@ -47,6 +47,6 @@ function renderNav() {
 renderNav()
 
 $('#logoutbtn').on('click', function(){
-    console.log(`Logging ${userState} out ...`)
+    console.log(`Logging ${localStorage.getItem('email')} out ...`)
     localStorage.removeItem('email')
 })
