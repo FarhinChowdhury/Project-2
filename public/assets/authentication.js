@@ -1,10 +1,10 @@
 
 function renderNav() {
-    $('.navbar').empty()
 
     const navbar = $('.navbar')
     let userState = localStorage.getItem('email')
     if (userState){
+        navbar.empty()
         let newLocal = `
             <a href="/" class="navbar-brand mb-0 h1">Fandomzzz</a>
             <div class="nav-search-field ">
@@ -31,9 +31,12 @@ function renderNav() {
                     </a>
                 </li>
                 <li class="nav-item pl-2 mb-2 mb-md-0">
-                    <a href="#" class="nav-link navbar-link-2 waves-effect">
-                        <i class="fas fa-user-circle"></i>
-                    </a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"><i class="fas fa-user-circle"></i></a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" id ="profile" href="profile.html">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="logoutbtn" href="/" >Log Out</a>
+                    </div>
                 </li>
             </ul>`
         navbar.html(newLocal)
@@ -42,3 +45,8 @@ function renderNav() {
     }
 }
 renderNav()
+
+$('#logoutbtn').on('click', function(){
+    console.log(`Logging ${userState} out ...`)
+    localStorage.removeItem('email')
+})
