@@ -1,14 +1,23 @@
-let searchInput
+let searchInputMain
 let searchBtn
+
+let cartMain = []
+
+class CartItemMain {
+    constructor(name,price){
+        this.name = name
+        this.price = price
+    }
+}
 
 $(document).ready(function() {
     console.log('ready')
-    searchInput = $('#searchBox')
+    searchInputMain = $('#searchBox')
     searchBtn = $('#searchBtn')
 
     function getProduct(Post) {
         console.log('submitting: ',Post)
-        $.get(`/api/posts/${Post}`, Post, function(res) {
+        $.get(`/api/search/${Post}`, Post, function(res) {
             console.log('Searching product database...')
             // window.location.href = '/product';
             if(res.length<1){
@@ -18,7 +27,7 @@ $(document).ready(function() {
             $('#modalDesc').html('')
             res.forEach(function(el){
                 console.log(el.name)
-                $('#modalDesc').append(`
+                $('#modalDescMain').append(`
                 <div class="card m-2 p-0">
                     <img class="card-img-top" id="productImage" src="${el.image}" alt="Card image cap">
                     <div class="card-body">
@@ -26,9 +35,8 @@ $(document).ready(function() {
                         <p class="card-text m-0" id="productDesc">${el.desc}</p>
                         <p class="card-text m-0" id="productStock">Stock: ${el.stock}</p>
                         <p class="card-text m-0" id="productCat">${el.category}</p>
-                        <p class="card-text m-0" id="productBid">Starting Bid: ${el.price.toFixed(2)}</p>
-                        <a href="#" class="btn btn-primary m-0 mt-2">Make a Bid</a>
-                        <a href="#" class="btn btn-primary mt-2">Buy Now</a>
+                        <p class="card-text m-0" id="productBid">Price: ${el.price.toFixed(2)}</p>
+                        <button href="#" onClick="pushToCartMain('${el.name}',${el.price})" class="btn btn-primary mt-2">Buy Now</button>
                     </div>
                 </div>
                 `
@@ -41,12 +49,12 @@ $(document).ready(function() {
     // Adding an event listener for when the form is submitted
     $(searchBtn).on('click', function handleFormSearch(event) {
         event.preventDefault();
-        console.log('click', searchInput.val())
-        if (!searchInput.val()) {
+        console.log('click', searchInputMain.val())
+        if (!searchInputMain.val()) {
             console.log('Please enter your search in the search box.')
             return;
         }
-        var search = searchInput.val().trim()
+        var search = searchInputMain.val().trim()
         console.log(search);
         getProduct(search)
     });
@@ -69,9 +77,8 @@ $(document).ready(function() {
                     <p class="card-text m-0" id="productDesc">${el.desc}</p>
                     <p class="card-text m-0" id="productStock">Stock: ${el.stock}</p>
                     <p class="card-text m-0" id="productCat">${el.category}</p>
-                    <p class="card-text m-0" id="productBid">Starting Bid: ${el.price.toFixed(2)}</p>
-                    <a href="#" class="btn btn-primary m-0 mt-2">Make a Bid</a>
-                    <a href="#" class="btn btn-primary mt-2">Buy Now</a>
+                    <p class="card-text m-0" id="productBid">Price: ${el.price.toFixed(2)}</p>
+                    <a href="#" onClick="pushToCartMain('${el.name}',${el.price})" class="btn btn-primary mt-2">Buy Now</a>
 
                 </div>
             </div>
@@ -81,3 +88,14 @@ $(document).ready(function() {
     });
 
 });
+
+let num = 0
+function pushToCartMain(name,price){
+    let cartItem = new CartItemMain(name,price)
+    cartMain.push(cartItem)
+    localStorage.cartItems = JSON.stringify(cartMain)
+    console.log(localStorage.cartItems)
+    num++
+    $('#cartCounter').text(num)
+
+}

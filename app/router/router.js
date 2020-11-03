@@ -81,7 +81,7 @@ function router( app ){
     })
 
     // to get bids with title containing search query
-    app.get('/api/posts/:title', async function(req, res){
+    app.get('/api/search/:title', async function(req, res){
         try {
             console.log('PARAMS: ',req.params)
             let result = await db.Post.findAll({
@@ -92,7 +92,7 @@ function router( app ){
             console.log('Search Result: ',result)
             res.json(result);
         } catch (error) {
-            console.log(error)
+            console.log("SEARCH ERROR", error)
             res.send(error)
         }
     })
