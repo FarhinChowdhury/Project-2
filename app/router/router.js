@@ -15,7 +15,6 @@ const upload = require('multer')({ dest: 'public/uploads' })
 const publicPath = '../../'
 
 const passport = require('../config/passport')
-const renderNav = require('../config/authentication')
 
 function router( app ){
     app.use(passport.initialize());
