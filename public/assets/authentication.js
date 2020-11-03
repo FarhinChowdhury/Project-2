@@ -33,8 +33,6 @@ function renderNav() {
                 <li class="nav-item pl-2 mb-2 mb-md-0">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"><i class="fas fa-user-circle"></i></a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" id ="profile" href="profile.html">Profile</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href='/'><span id="logoutbtn">Log Out</span></a>
                     </div>
                 </li>

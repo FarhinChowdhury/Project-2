@@ -6,12 +6,10 @@ $(document).ready(function(){
 
     loginForm.on('submit', function(event){
         event.preventDefault()
-        console.log('Hello')
         const userData = {
             email: emailInput.val().trim(),
             password: passwordInput.val().trim()
         }
-        console.log(userData)
         if (!userData.email || !userData.password){
             return
         }
@@ -28,9 +26,12 @@ $(document).ready(function(){
             window.location.replace('/bids')
             console.log('no errors')
             localStorage.setItem('email', email)
-        }).catch(function(err){
-            console.log(err)
-        })
+        }).catch(handleLoginErr)
     }
 
+    function handleLoginErr() {
+        console.log('Error')
+        $('#alert .msg').text('That email does not exist in our system');
+        $('#alert').fadeIn(500);
+    }
 })
