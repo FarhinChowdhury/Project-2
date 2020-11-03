@@ -1,5 +1,3 @@
-// add to local Storage
-// if item in localStorage change navbar for function
 
 function renderNav() {
     $('.navbar').empty()
