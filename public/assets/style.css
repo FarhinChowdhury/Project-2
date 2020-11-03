@@ -24,10 +24,15 @@ html{
 }
 
 /*===========Cart page===========*/
-.product-container{
+.products-container{
+    max-width: 650px;
+    justify-content:space-around;
+    margin:0 auto;
     margin-top:50px;
-    margin-left:5px;
-    margin-right:5px;
+    display:flex;
+    flex-wrap:wrap;
+    padding-bottom: 100px;
+    
 }
 .product-header{
     width:100%;
@@ -39,12 +44,12 @@ html{
 }
 
 .product-name{
-    width:40%;
+    width:45%;
 }
 
 .product-price{
     width:15%;
-    margin-right:10px;
+
     display:flex;
     align-items: center;
 }
@@ -62,15 +67,42 @@ html{
     align-items: center;
 
 }
-
 .products{
-    width: 45%;
+    width:100%;
+
+    border-bottom:4px solid grey;
+    margin:0 auto;
+}
+
+.name{
+    width:45%;
+}
+
+.price{
+    width:15%;
+
     display:flex;
-    justify-content: space-around;
     align-items: center;
-    padding: 10px 0;
+}
+.total{
+    width:10%;
+
+    display:flex;
+    align-items: center;
 
 }
+.quantity{
+    width:30%;
+
+    display:flex;
+    align-items: center;
+
+}
+
+
+
+
+
 /*===========Login page===========*/
 
 #loginbox{
