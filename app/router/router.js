@@ -69,17 +69,6 @@ function router( app ){
         res.json(result)
     })
 
-    // for posts by user
-    app.get('/api/posts/:user', async function(req, res){
-        console.log(req.params, req.body)
-        let result = await db.Post.findAll({
-            where: {
-                user: req.params.user
-            }
-        })
-        res.json(result)
-    })
-
     // to get bids with title containing search query
     app.get('/api/search/:title', async function(req, res){
         try {

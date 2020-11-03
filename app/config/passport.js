@@ -1,5 +1,4 @@
 const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const db = require('../models')
 const LocalStrategy = require('passport-local').Strategy
 

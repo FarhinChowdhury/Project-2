@@ -18,7 +18,7 @@ $(document).ready(function() {
         };
 
         if (!userData.first_name || !userData.last_name || !userData.email || !userData.password) {
-            console.log('oopsie not all fields are completed', userData)
+            console.log('oopsie not all fields are completed')
             return;
         }
         // If we have an email and password, run the signUpUser function
