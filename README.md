@@ -7,7 +7,7 @@ This application features username and password authentication, a shopping cart 
 
 The application is deployed on Heroku: [Fandomzzz E-Commerce Website](google.com)
 
-![screenshot](.\public\assets\images\screenshot.png)
+![screenshot](https://github.com/zeroshii/Project-2/blob/develop/public/assets/images/screenshot.png)
 ## Table of Contents
 - [Technologies](#technologies)
 - [Installation](#installation)
