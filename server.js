@@ -5,11 +5,11 @@ const apiRouter = require('./app/router/router')
 const app = express()
 const db = require('./app/models')
 const fs = require('fs')
-const https = require('https')
-const privateKey = fs.readFileSync('./ssl/server.key', 'utf-8')
-const certificate = fs.readFileSync('./ssl/server.crt', 'utf-8')
+// const https = require('https')
+// const privateKey = fs.readFileSync('./ssl/server.key', 'utf-8')
+// const certificate = fs.readFileSync('./ssl/server.crt', 'utf-8')
 const { pathToFileURL } = require('url')
-var credentials = {key: privateKey, cert: certificate}
+// var credentials = {key: privateKey, cert: certificate}
 
 
 const PORT = process.env.PORT || 8080
@@ -30,7 +30,7 @@ apiRouter(app)
 
 // const httpsServer = https.createServer(credentials, app)
 
-db.sequelize.sync().then(function(){
+db.sequelize.sync({force:true}).then(function(){
     app.listen(PORT, function() {
         console.log( `Database (name=${process.env.DB_NAME}); Serving app on: http://localhost:${PORT}` )
     })
