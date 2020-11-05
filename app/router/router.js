@@ -146,7 +146,7 @@ function router( app ){
         if( req.file ){
             console.log('path is: ', __dirname)
             // const imageUrl = await uploadResizer(publicPath+req.file.path, req.file.originalname, 512, 512);
-            const imageUrl = req.file.path
+            const imageUrl = req.file.path.replace('public/', '')
             console.log('IMAGE URL',imageUrl)
             // assign in the thumbData so can use as normal
             mediaData.imageUrl = imageUrl
