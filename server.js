@@ -30,7 +30,7 @@ apiRouter(app)
 
 // const httpsServer = https.createServer(credentials, app)
 
-db.sequelize.sync().then(function(){
+db.sequelize.sync({force:true}).then(function(){
     app.listen(PORT, function() {
         console.log( `Database (name=${process.env.DB_NAME}); Serving app on: http://localhost:${PORT}` )
     })
