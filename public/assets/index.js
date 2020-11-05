@@ -1,6 +1,5 @@
 let searchInputMain
 let searchBtn
-
 let cartMain = []
 
 class CartItemMain {
