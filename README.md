@@ -5,7 +5,7 @@ An e-commerce website for purchasing and selling fan merchandise using full stac
 
 This application features username and password authentication, a shopping cart that can add and remove products for checkout, and allows the user to add new products to the database. 
 
-The application is deployed on Heroku: [Fandomzzz E-Commerce Website](google.com)
+The application is deployed on Heroku: [Fandomzzz E-Commerce Website](https://stormy-depths-87128.herokuapp.com/)
 
 ![screenshot](https://github.com/zeroshii/Project-2/blob/develop/public/assets/images/screenshot.png)
 ## Table of Contents
